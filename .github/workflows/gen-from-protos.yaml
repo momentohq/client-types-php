@@ -1,0 +1,41 @@
+name: Gen from protos
+
+on:
+  workflow_dispatch:
+
+jobs:
+  gen-from-protos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Protos Repo
+        run: git clone https://github.com/momentohq/client_protos
+
+      - name: Install php plugin
+        run: |
+          git clone --recurse-submodules -b v1.46.3 --depth 1 --shallow-submodules https://github.com/grpc/grpc
+          cd grpc
+          mkdir -p cmake/build
+          pushd cmake/build
+            cmake ../..
+            make protoc grpc_php_plugin
+          popd
+
+      - name: Install protoc
+        run: |
+          `pwd`/client_protos/install_protoc.sh
+          ls -l
+
+      - name: Compile protos
+        run: |
+          mkdir -p php/src
+          export PATH=`pwd`/protoc/bin/:$PATH
+          protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/auth.proto
+          protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/cacheclient.proto
+          protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/controlclient.proto
+          protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/httpcache.proto
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with: 
+          name: assets-for-download
+          path: php
