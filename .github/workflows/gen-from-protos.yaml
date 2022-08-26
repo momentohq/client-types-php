@@ -23,7 +23,6 @@ jobs:
       - name: Install protoc
         run: |
           `pwd`/client_protos/install_protoc.sh
-          ls -l
 
       - name: Compile protos
         run: |
