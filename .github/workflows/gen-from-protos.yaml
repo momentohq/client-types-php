@@ -29,6 +29,7 @@ jobs:
           mkdir -p php/src
           export PATH=`pwd`/protoc/bin/:$PATH
           protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/auth.proto
+          protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/extensions.proto
           protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/cacheclient.proto
           protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/controlclient.proto
           protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/cachepubsub.proto
