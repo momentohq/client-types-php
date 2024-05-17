@@ -40,6 +40,7 @@ jobs:
           protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/vectorindex.proto
           protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/permissionmessages.proto
           protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/cacheping.proto
+          protoc -I /usr/local/include --proto_path=client_protos/proto --php_out=php/src --grpc_out=php/src --plugin=protoc-gen-grpc=`pwd`/grpc/cmake/build/grpc_php_plugin client_protos/proto/common.proto
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
